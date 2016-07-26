@@ -326,7 +326,7 @@ var flowchart = {
 		}
 
 		this.color = function () {
-		    return this.data.color || "";
+		    return this.data.color || "gray";
 		}
 
 		this.sourceCoordX = function () { 

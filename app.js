@@ -142,7 +142,7 @@ angular.module('app', ['flowChart', ])
 			    name: 'Connection 2',
 			    message1: 'Average Delay 45 min',
 			    message2: 'Skipped 67%',
-			    color: 'rgb(200,0,0)',
+			    color: 'rgb(16,124,15)',
 			    source: {
 			        nodeID: 0,
 			        connectorIndex: 0,

@@ -16,6 +16,7 @@
                   stop-opacity="0.99219"
                   stop-color="#d0d0e5" />
         </linearGradient>
+
     </defs>
     <g ng-repeat="node in chart.nodes"
        ng-mousedown="nodeMouseDown($event, node)"
@@ -107,41 +108,52 @@
         <g ng-repeat="connection in chart.connections"
            class="connection"
            ng-mousedown="connectionMouseDown($event, connection)">
-            <path ng-attr-class="{{connection.selected() && 'selected-connection-line' || (connection == mouseOverConnection && 'mouseover-connection-line' || 'connection-line')}}"
+            <path ng-attr-style="stroke:{{connection.color()}}" ng-attr-class="{{connection.selected() && 'selected-connection-line' || (connection == mouseOverConnection && 'mouseover-connection-line' || 'connection-line')}}"
                   ng-attr-d="M {{connection.sourceCoordX()}}, {{connection.sourceCoordY()}}
                      C {{connection.sourceTangentX()}}, {{connection.sourceTangentY()}}
                        {{connection.destTangentX()}}, {{connection.destTangentY()}}
                        {{connection.destCoordX()}}, {{connection.destCoordY()}}">
             </path>
-            <!--<rect ng-attr-x="{{connection.middleX()-65}}" ng-attr-y="{{connection.middleY()-45}}" width="130" height="20" ng-attr-style="fill:rgb(255,255,255);stroke-width:1;stroke:{{connection.color()}}" text-anchor="middle"
-                  alignment-baseline="middle">
-            </rect>-->
 
-            <rect ng-attr-x="{{connection.middleX()-60}}" ng-attr-y="{{connection.middleY()-43}}" width="3" height="35" ng-attr-style="fill:{{connection.color()}};stroke-width:1;stroke:{{connection.color()}}">
-            </rect>
-            <text  ng-attr-class="connection-message message1 {{connection.selected() && 'selected-connection-name' || (connection == mouseOverConnection && 'mouseover-connection-name' || 'connection-name')}}"
-                  ng-attr-x="{{connection.middleX()-50}}"
-                  ng-attr-y="{{connection.middleY()-35}}"
-                  text-anchor="left"
-                  alignment-baseline="middle">{{connection.message1()}}</text>
-            <text class="connection-message message2" ng-attr-class="connection-message message2 {{connection.selected() && 'selected-connection-name' || (connection == mouseOverConnection && 'mouseover-connection-name' || 'connection-name')}}"
-                  ng-attr-x="{{connection.middleX()-50}}"
-                  ng-attr-y="{{connection.middleY()-15}}"
-                  text-anchor="left"
-                  alignment-baseline="middle">{{connection.message2()}}</text>
+            <rect id="rect" width="150px" height="20px" ng-attr-x="{{connection.middleX()-60}}" ng-attr-y="{{connection.middleY()-27}}" fill="none"  />
+            <clipPath id="clip">
+                <use xlink:href="#rect" />
+            </clipPath>
+            <use xlink:href="#rect" />
+            <g clip-path="url(#clip)">
+                <rect ng-attr-x="{{connection.middleX()-57}}" ng-attr-y="{{connection.middleY()-27}}" width="150" height="20" ng-attr-style="fill:rgb(255,255,255);stroke-width:0;stroke:{{connection.color()}};fill:rgb(255,255,255)" text-anchor="middle"
+                      alignment-baseline="middle">
+                </rect>
 
+                <rect ng-attr-x="{{connection.middleX()-60}}" ng-attr-y="{{connection.middleY()-27}}" width="3" height="20" ng-attr-style="fill:{{connection.color()}};stroke-width:1;stroke:{{connection.color()}}">
+                </rect>
+                <text ng-attr-class="connection-message message1 {{connection.selected() && 'selected-connection-name' || (connection == mouseOverConnection && 'mouseover-connection-name' || 'connection-name')}}" ng-attr-style="color:{{connection.color()}}"
+                      ng-attr-x="{{connection.middleX()-50}}"
+                      ng-attr-y="{{connection.middleY()-17}}"
+                      text-anchor="left"  
+                      alignment-baseline="middle">{{connection.message1()}}</text>
+                <!--<text class="connection-message message2" ng-attr-class="connection-message message2 {{connection.selected() && 'selected-connection-name' || (connection == mouseOverConnection && 'mouseover-connection-name' || 'connection-name')}}"
+              ng-attr-x="{{connection.middleX()-50}}"
+              ng-attr-y="{{connection.middleY()-15}}"
+              text-anchor="left"
+              alignment-baseline="middle">{{connection.message2()}}</text>-->
 
-            <circle ng-attr-class="{{connection.selected() && 'selected-connection-endpoint' || (connection == mouseOverConnection && 'mouseover-connection-endpoint' || 'connection-endpoint')}}"
+            </g>
+            <circle ng-attr-style="fill:{{connection.color()}}" ng-attr-class="{{connection.selected() && 'selected-connection-endpoint' || (connection == mouseOverConnection && 'mouseover-connection-endpoint' || 'connection-endpoint')}}"
                     r="5"
                     ng-attr-cx="{{connection.sourceCoordX()}}"
                     ng-attr-cy="{{connection.sourceCoordY()}}">
             </circle>
 
-            <circle ng-attr-class="{{connection.selected() && 'selected-connection-endpoint' || (connection == mouseOverConnection && 'mouseover-connection-endpoint' || 'connection-endpoint')}}"
+            <!--<circle ng-attr-style="fill:{{connection.color()}}" ng-attr-class="{{connection.selected() && 'selected-connection-endpoint' || (connection == mouseOverConnection && 'mouseover-connection-endpoint' || 'connection-endpoint')}}"
                     r="5"
                     ng-attr-cx="{{connection.destCoordX()}}"
                     ng-attr-cy="{{connection.destCoordY()}}">
-            </circle>
+            </circle>-->
+
+            <polygon 
+                     ng-attr-style="fill:{{connection.color()}}" ng-attr-class="{{connection.selected() && 'selected-connection-endpoint' || (connection == mouseOverConnection && 'mouseover-connection-endpoint' || 'connection-endpoint')}}"
+                     ng-attr-points="{{connection.destCoordX()-3}},{{connection.destCoordY()-6}},{{connection.destCoordX()-3}},{{connection.destCoordY()+6}},{{connection.destCoordX()+7}},{{connection.destCoordY()}}" />
         </g>
     </g>
 
