@@ -61,7 +61,7 @@ angular.module('app', ['flowChart', ])
 
         nodes: [
 			{
-			    name: "Example Node 1",
+			    name: "TRIAL SIGNUP",
 			    id: 0,
 			    x: 20,
 			    y: 20,
@@ -76,17 +76,15 @@ angular.module('app', ['flowChart', ])
                     {
                         name: "Count",
                         value: "54020",
-                        isPrimary: true,
                     },
+                    {},
                     {
                         name: "Last Received",
                         value: "19Jul 2:05",
-                        isPrimary: true,
                     },
                     {
                         name: "US Campaign",
                         value: "2030",
-                        isPrimary: true,
                     }
 			    ]
 			},
@@ -102,7 +100,10 @@ angular.module('app', ['flowChart', ])
 			    inputConnectors: [
 					{
 					    name: "A",
-					}
+					},
+                    {
+                        name: "B"
+                    }
 			    ],
 			    outputConnectors: [
 					/*{
@@ -135,11 +136,48 @@ angular.module('app', ['flowChart', ])
 			    ]
 			},
 
+            {
+                name: "ORGANIC LEADS",
+                id: 2,
+                x: 20,
+                y: 200,
+                width: 264,
+                image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAIAAAC0D9CtAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAFPSURBVDhPpZLNq4JAFMX9Z1tbiAR9g5UkKAaKtHHjxo0tEtxFLtpGufYDSyEQwRa1yqz7mKlXxnv0eL/FOPfMOd6ZUeL6d/6dKYoCz96I47jT6VAUtVqtfsyU8qIoLhaLIAiazeZvmedyMpmYprlerweDAc6UHIhnkWVZhmHG4zFs8qWP4zg8z89mM1zfURRF13VcPN/B8XgkSXKz2XAcB1sHJcsyKMEtCALyXC4XGIlH9yRJGo0GTKbTaa1Wg7HVaoG7Wq2maYo8iO8++/2+Uql0u124Itd1+/2+YRigj0Yj3/eRB0HkeW7b9nw+h7fC2ul0AgUWttstfA1N09rt9uFwQG4EIUmSLMvD4VBVVazdCcPQsiw4Fa7vEDRNn8/n3W4HMay98TgzgoBN93q9er2+XC6RVHK883VvnudFUYSFTzL4+YH1wct/8BHX6w3jHBcL8xpwXAAAAABJRU5ErkJggg==',
+                inputConnectors: [
+					
+                ],
+                outputConnectors: [
+					{
+					    name: "A",
+					},
+					/*{
+					    name: "B",
+					},
+					{
+					    name: "C",
+					},*/
+                ],
+                kpi: [
+                    {
+                        name: "Count",
+                        value: "12570",
+                    },{},
+                    {
+                        name: "Last Received",
+                        value: "19Jul 2:05",
+                    },
+                    {
+                        name: "US Campaign",
+                        value: "3545",
+                    },
+                ]
+            }
+
         ],
 
         connections: [
 			{
-			    name: 'Connection 2',
+			    name: 'Connection 0-0 to 1-0',
 			    message1: 'Average Delay 45 min',
 			    message2: 'Skipped 67%',
 			    color: 'rgb(16,124,15)',
@@ -151,6 +189,21 @@ angular.module('app', ['flowChart', ])
 			    dest: {
 			        nodeID: 1,
 			        connectorIndex: 0,
+			    },
+			},
+			{
+			    name: 'Connection 2-0 to 1-1',
+			    message1: 'Average Delay 15 min',
+			    message2: 'Skipped 67%',
+			    color: 'rgb(204,112,1)',
+			    source: {
+			        nodeID: 2,
+			        connectorIndex: 0,
+			    },
+
+			    dest: {
+			        nodeID: 1,
+			        connectorIndex: 1,
 			    },
 			},
 
@@ -296,8 +349,5 @@ angular.module('app', ['flowChart', ])
     //
     //debugger;
     $scope.chartViewModel = new flowchart.ChartViewModel(chartDataModel, $sce);
-
-
-
 }])
 ;

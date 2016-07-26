@@ -310,7 +310,7 @@ var flowchart = {
 		this.source = sourceConnector;
 		this.dest = destConnector;
 
-		// Set to true when the connection is selected.
+	    // Set to true when the connection is selected.
 		this._selected = false;
 
 		this.name = function() {
