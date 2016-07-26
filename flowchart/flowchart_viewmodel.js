@@ -24,11 +24,19 @@ var flowchart = {
 	//
 	flowchart.connectorHeight = 35;
 
+	flowchart.kpiInitialHeight = 50;
+	flowchart.kpiPrimaryHeight = 40;
+	flowchart.kpiSecondaryHeight = 50;
+
 	//
 	// Compute the Y coordinate of a connector, given its index.
 	//
 	flowchart.computeConnectorY = function (connectorIndex) {
 		return flowchart.nodeNameHeight + (connectorIndex * flowchart.connectorHeight);
+	}
+
+	flowchart.computeKPIY = function (kpiIndex, isPrimary) {
+	    return flowchart.kpiInitialHeight + (kpiIndex * (isPrimary?flowchart.kpiPrimaryHeight:flowchart.kpiSecondaryHeight));
 	}
 
 	//
@@ -87,7 +95,7 @@ var flowchart = {
 		var viewModels = [];
 
 		if (connectorDataModels) {
-			for (var i = 0; i < connectorDataModels.length; ++i) {
+		    for (var i = 0; i < connectorDataModels.length; ++i) {
 				var connectorViewModel = 
 					new flowchart.ConnectorViewModel(connectorDataModels[i], x, flowchart.computeConnectorY(i), parentNode);
 				viewModels.push(connectorViewModel);
@@ -97,11 +105,66 @@ var flowchart = {
 		return viewModels;
 	};
 
+	flowchart.KPIViewModel = function (kpiDataModel, x, y, parentNode) {
+
+	    this.data = kpiDataModel;
+	    this._parentNode = parentNode;
+	    this._x = x;
+	    this._y = y;
+
+	    //
+	    // The name of the connector.
+	    //
+	    this.name = function () {
+	        return this.data.name;
+	    }
+
+	    this.value = function () {
+	        return this.data.value;
+	    }
+
+	    this.isPrimary = function () {
+	        return this.data.isPrimary;
+	    }
+
+	    //
+	    // X coordinate of the connector.
+	    //
+	    this.x = function () {
+	        return this._x;
+	    };
+
+	    //
+	    // Y coordinate of the connector.
+	    //
+	    this.y = function () {
+	        return this._y;
+	    };
+
+	    //
+	    // The parent node that the connector is attached to.
+	    //
+	    this.parentNode = function () {
+	        return this._parentNode;
+	    };
+	};
+
+	var createKPIViewModel = function (kpiDataModels, x, parentNode) {
+	    var viewModels = [];
+	    if (kpiDataModels) {
+	        for (var i = 0; i < kpiDataModels.length; ++i) {
+	            var kpiViewModel = new flowchart.KPIViewModel(kpiDataModels[i], x, flowchart.computeKPIY(i, kpiDataModels[i].isPrimary), parentNode);
+	            viewModels.push(kpiViewModel);
+	        }
+	    }
+	    return viewModels;
+	}
+
 	//
 	// View model for a node.
 	//
-	flowchart.NodeViewModel = function (nodeDataModel) {
-
+	flowchart.NodeViewModel = function (nodeDataModel, $sce) {
+	    //debugger;
 		this.data = nodeDataModel;
 
 		// set the default width value of the node
@@ -110,7 +173,8 @@ var flowchart = {
 		}
 		this.inputConnectors = createConnectorsViewModel(this.data.inputConnectors, 0, this);
 		this.outputConnectors = createConnectorsViewModel(this.data.outputConnectors, this.data.width, this);
-
+	    // add KPI View Model
+		this.kpiViewModel = createKPIViewModel(this.data.kpi, 10, this);
 		// Set to true when the node is selected.
 		this._selected = false;
 
@@ -119,6 +183,10 @@ var flowchart = {
 		//
 		this.name = function () {
 			return this.data.name || "";
+		};
+
+		this.image = function () {
+            return this.data.image? $sce.trustAsResourceUrl(this.data.image):null;
 		};
 
 		//
@@ -146,6 +214,7 @@ var flowchart = {
 		// Height of the node.
 		//
 		this.height = function () {
+		    return 135;
 			var numConnectors =
 				Math.max(
 					this.inputConnectors.length, 
@@ -220,12 +289,12 @@ var flowchart = {
 	// 
 	// Wrap the nodes data-model in a view-model.
 	//
-	var createNodesViewModel = function (nodesDataModel) {
+	var createNodesViewModel = function (nodesDataModel, $sce) {
 		var nodesViewModel = [];
 
 		if (nodesDataModel) {
 			for (var i = 0; i < nodesDataModel.length; ++i) {
-				nodesViewModel.push(new flowchart.NodeViewModel(nodesDataModel[i]));
+				nodesViewModel.push(new flowchart.NodeViewModel(nodesDataModel[i], $sce));
 			}
 		}
 
@@ -246,6 +315,18 @@ var flowchart = {
 
 		this.name = function() {
 			return this.data.name || "";
+		}
+
+		this.message1 = function () {
+		    return this.data.message1 || "";
+		}
+
+		this.message2 = function () {
+		    return this.data.message2 || "";
+		}
+
+		this.color = function () {
+		    return this.data.color || "";
 		}
 
 		this.sourceCoordX = function () { 
@@ -296,7 +377,8 @@ var flowchart = {
 
 		this.middleX = function(scale) {
 			if(typeof(scale)=="undefined")
-				scale = 0.5;
+			    scale = 0.5;
+			//debugger;
 			return this.sourceCoordX()*(1-scale)+this.destCoordX()*scale;
 		};
 
@@ -399,7 +481,7 @@ var flowchart = {
 	//
 	// View model for the chart.
 	//
-	flowchart.ChartViewModel = function (chartDataModel) {
+	flowchart.ChartViewModel = function (chartDataModel, $sce) {
 
 		//
 		// Find a specific node within the chart.
@@ -474,7 +556,7 @@ var flowchart = {
 		this.data = chartDataModel;
 
 		// Create a view-model for nodes.
-		this.nodes = createNodesViewModel(this.data.nodes);
+		this.nodes = createNodesViewModel(this.data.nodes, $sce);
 
 		// Create a view-model for connections.
 		this.connections = this._createConnectionsViewModel(this.data.connections);

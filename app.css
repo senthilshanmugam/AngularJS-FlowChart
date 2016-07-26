@@ -3,16 +3,16 @@ Generic reset.
 */
 
 * {
-	padding: 0;
-	margin: 0;
+    padding: 0;
+    margin: 0;
 }
 
 .test {
-	border: 5px red solid;
-	padding: 10;
-	margin: 10;
-	font-family: "Times New Roman";
-	font-style: italic;
+    border: 5px red solid;
+    padding: 10;
+    margin: 10;
+    font-family: "Times New Roman";
+    font-style: italic;
 }
 
 /*
@@ -20,18 +20,18 @@ Styles for nodes and connectors.
 */
 
 .node-rect {
-	stroke: black;
-	stroke-width: 2;
+    stroke: #0076D6;
+    stroke-width: 1;
 }
 
 .mouseover-node-rect {
-	stroke: black;
-	stroke-width: 4;
+    stroke: #0064B6;
+    stroke-width: 2;
 }
 
 .selected-node-rect {
-	stroke: red;
-	stroke-width: 3;
+    stroke: #dd0000;
+    stroke-width: 3;
 }
 
 .connector-circle {
@@ -46,6 +46,32 @@ Styles for nodes and connectors.
     stroke-width: 3;
 }
 
+.node-name {
+    font-family: 'Segoe UI';
+}
+
+.kpi-label.primary {
+    font-family: 'Segoe UI';
+    font-size: 12px;
+}
+.kpi-value.primary {
+    font-family: 'Segoe UI';
+    font-size: 20px;
+    stroke: #0076D6;
+    font-weight: 100;
+}
+
+.kpi-label.secondary {
+    font-family: 'Segoe UI';
+    font-size: 12px;
+}
+.kpi-value.secondary {
+    font-family: 'Segoe UI';
+    font-size: 16px;
+    stroke: #0076D6;
+    font-weight: 100;
+}
+
 /*
 Style for connections.
 */
@@ -54,62 +80,75 @@ Style for connections.
 }
 
 .connection-line {
-	stroke: gray;
-	stroke-width: 4;
-	fill: transparent;
-}	
+    stroke: gray;
+    stroke-width: 4;
+    fill: transparent;
+}
 
 .mouseover-connection-line {
-	stroke: gray;
-	stroke-width: 6;
-	fill: transparent;
-}	
+    stroke: gray;
+    stroke-width: 6;
+    fill: transparent;
+}
 
 .selected-connection-line {
-	stroke: red;
-	stroke-width: 4;
-	fill: transparent;
-}	
+    stroke: red;
+    stroke-width: 4;
+    fill: transparent;
+}
 
 .connection-endpoint {
-	fill: gray;
+    fill: gray;
 }
 
 .selected-connection-endpoint {
-	fill: red;
-}	
+    fill: red;
+}
 
 .mouseover-connection-endpoint {
-	fill: gray;
+    fill: gray;
 }
 
-.connection-name{
-	fill: black;
+.connection-name {
+    fill: black;
 }
 
-.selected-connection-name{
-	fill: red;
+.selected-connection-name {
+    fill: red;
 }
 
-.mouseover-connection-name{
-	fill: gray;
+.mouseover-connection-name {
+    fill: gray;
+}
+
+.connection-message {
+    font-family: 'Segoe UI';
+}
+
+.connection-message.message1 {
+    font-size: 14px;
+}
+
+.connection-message.message2 {
+    font-size: 14px;
+    font-weight: 100;
 }
 /*
 Style for the connection being dragged out.
 */
 
 .dragging-connection {
-	pointer-events: none;
+    pointer-events: none;
 }
 
 .dragging-connection-line {
-	stroke: gray;
-	stroke-width: 3;
-	fill: transparent;
-}	
+    stroke: gray;
+    stroke-width: 3;
+    fill: transparent;
+}
 
 .dragging-connection-endpoint {
-	fill: gray;
+    fill: gray;
 }
 
 /*
@@ -117,7 +156,7 @@ The element (in this case the SVG element) that contains the draggable elements.
 */
 
 .draggable-container {
-	border: solid 1px blue;
+    border: solid 1px blue;
 }
 
 /*
@@ -125,7 +164,7 @@ Drag selection rectangle.
 */
 
 .drag-selection-rect {
-	stroke: blue;
-	stroke-width: 2;
-	fill: transparent;
+    stroke: blue;
+    stroke-width: 2;
+    fill: transparent;
 }
